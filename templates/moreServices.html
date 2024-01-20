@@ -1,0 +1,423 @@
+{% load static %} {% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="data:image/png;base64,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"
+      type="image/x-icon" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+    <title>More Comming Soon</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <nav class="nav">
+        <div>
+          <a href="">
+            <img class="logo" src="/static_files/img/logo2.png" alt=""
+          /></a>
+        </div>
+        <div>
+          <ul id="nav">
+            <li>
+              <a href="instagram"
+                ><i class="navIcons fab fa-instagram"></i>Instagram</a
+              >
+            </li>
+            <li>
+              <a href="{% url 'webpage1' %}"
+                ><i class="navIcons fab fa-youtube"></i>Youtube</a
+              >
+            </li>
+            <li>
+              <a href="#"><i class="navIcons fab fa-twitter"></i>Twitter</a>
+            </li>
+            <li>
+              <a href="more-services"
+                ><i class="fa-solid fa-angles-right"></i>More Services</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="menu" id="menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+
+      <!-- Instagram Main Input -->
+
+      <div class="main_container">
+        <div class="instagramMainBackground">
+          <div class="title">
+            <p>More Comming Soon...</p>
+          </div>
+
+          
+        </div>
+      </div>
+
+      <!-- Steps -->
+
+      <!-- Steps To Download -->
+      <section class="oggq7a-7 kACDjV stepsContainer">
+        <div
+          itemscope=""
+          itemtype="https://schema.org/HowTo"
+          class="sc-1ibx895-0 bYWQJC">
+          <div
+            itemprop="name"
+            color="black"
+            class="yk6pkc-0 dhvFex oggq7a-4 hqXzRu">
+            <h3>
+              How to convert YouTube videos to MP4 in Wave.video:<br />
+              Step-by-step guide
+            </h3>
+          </div>
+          <ul class="sc-1sbn9nh-0 ejWKKN">
+            <li
+              itemprop="step"
+              itemscope=""
+              itemtype="https://schema.org/HowToStep"
+              class="oggq7a-6 dgcRev">
+              <div class="oggq7a-5 cogzrn">
+                <div class="oggq7a-3 guwape">
+                  <div class="mig0x4-0 kaTQda animated active">
+                    <div
+                      style="
+                        display: block;
+                        overflow: hidden;
+                        position: relative;
+                        box-sizing: border-box;
+                        margin: 0;
+                      ">
+                      <div
+                        class="stepsImgDiv"
+                        style="
+                          display: block;
+                          box-sizing: border-box;
+                          padding-top: 5%;
+                        "></div>
+                      <img
+                        class="steps1Img"
+                        itemprop="image"
+                        alt="Step 1. Copy the URL"
+                        src="/static_files/img/step1.jpg" />
+                    </div>
+                  </div>
+                </div>
+                <div class="oggq7a-1 jhGbCI">
+                  <div class="mig0x4-0 kDuhCX animated active">
+                    <div
+                      itemprop="name"
+                      color="black"
+                      class="yk6pkc-0 dhvFex oggq7a-0 edIUli">
+                      <h4>Step 1. Copy the URL</h4>
+                    </div>
+                    <div
+                      itemprop="text"
+                      color="black"
+                      class="yk6pkc-0 dhvFex oggq7a-0 edIUli">
+                      <p class="yk6pkc-1 TgzXT">
+                        First, open the video that you want to download on
+                        YouTube and copy its URL.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li
+              itemprop="step"
+              itemscope=""
+              itemtype="https://schema.org/HowToStep"
+              class="oggq7a-6 dgcRev">
+              <div class="oggq7a-5 cogzrn">
+                <div class="oggq7a-3 guwape">
+                  <div class="mig0x4-0 kDuhCX animated">
+                    <div
+                      style="
+                        display: block;
+                        overflow: hidden;
+                        position: relative;
+                        box-sizing: border-box;
+                        margin: 0;
+                      ">
+                      <div
+                        style="
+                          display: block;
+                          box-sizing: border-box;
+                          padding-top: 5%;
+                        "></div>
+                      <img
+                        class="steps2Img"
+                        itemprop="image"
+                        alt="Step 2. Paste the URL"
+                        src="/static_files/img/step2.jpg" />
+                    </div>
+                  </div>
+                </div>
+                <div class="oggq7a-1 jhGbCI">
+                  <div class="mig0x4-0 kaTQda animated">
+                    <div
+                      itemprop="name"
+                      color="black"
+                      class="yk6pkc-0 dhvFex oggq7a-0 edIUli">
+                      <h4>Step 2. Paste the URL</h4>
+                    </div>
+                    <div
+                      itemprop="text"
+                      color="black"
+                      class="yk6pkc-0 dhvFex oggq7a-0 edIUli">
+                      <p class="yk6pkc-1 TgzXT">
+                        Paste the YouTube URL into the box on the top of this
+                        page and click the “Download MP4” button. If you want to
+                        save the video to your Wave.video account and customize,
+                        host, or stream it, click on the “Save and edit video”
+                        button.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li
+              itemprop="step"
+              itemscope=""
+              itemtype="https://schema.org/HowToStep"
+              class="oggq7a-6 dgcRev">
+              <div class="oggq7a-5 cogzrn">
+                <div class="oggq7a-3 guwape">
+                  <div class="mig0x4-0 kaTQda animated">
+                    <div
+                      style="
+                        display: block;
+                        overflow: hidden;
+                        position: relative;
+                        box-sizing: border-box;
+                        margin: 0;
+                      ">
+                      <div
+                        class="stepsImgDiv"
+                        style="
+                          display: block;
+                          box-sizing: border-box;
+                          padding-top: 5%;
+                        "></div>
+                      <img
+                        class="steps3Img"
+                        itemprop="image"
+                        alt="Step 3. Download the video"
+                        src="https://assets.animatron.com/static/images/data/convert/youtube-to-mp4/step3.webp?auto=format&amp;fit=max&amp;w=3840"
+                        decoding="async"
+                        style="min-height: 20vh; max-height: 54vh" />
+                    </div>
+                  </div>
+                </div>
+                <div class="oggq7a-1 jhGbCI">
+                  <div class="mig0x4-0 kDuhCX animated">
+                    <div
+                      itemprop="name"
+                      color="black"
+                      class="yk6pkc-0 dhvFex oggq7a-0 edIUli">
+                      <h4>Step 3. Download the video</h4>
+                    </div>
+                    <div
+                      itemprop="text"
+                      color="black"
+                      class="yk6pkc-0 dhvFex oggq7a-0 edIUli">
+                      <p class="yk6pkc-1 TgzXT">
+                        Now, the video will be automatically converted to MP4
+                        format and saved to your device for you to use. Enjoy!
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <!-- Repeat similar blocks for other steps -->
+          </ul>
+          <div class="jqggro-0 cSrHjg">
+            <div class="oggq7a-2 cqwOyg"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="trial-block shadow3" id="ContactUs">
+        <div class="height450">
+          <div class="section-title text-center">
+            <span class="badge badge-info">Download From All Social</span>
+            <h2 class="SocialIconTitle">Social Link</h2>
+            <span class="section-title-line section-title-line"></span>
+          </div>
+          <div class="social-overlap process-scetion mt100">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-md-10">
+                  <div class="social-bar">
+                    <div class="social-icons mb-3 iconpad text-center">
+                      <a class="slider-nav-item"
+                        ><i class="fab fa-facebook"></i
+                      ></a>
+                      <a class="slider-nav-item"
+                        ><i class="fab fa-google-plus"></i
+                      ></a>
+                      <a class="slider-nav-item"
+                        ><i class="fab fa-twitter"></i
+                      ></a>
+                      <a
+                        href="https://www.youtube.com/watch?v=_XiOcsj3oNI&t=50s"
+                        target="_blank"
+                        class="slider-nav-item"
+                        ><i class="fab fa-instagram"></i
+                      ></a>
+                      <a
+                        href="https://www.youtube.com/watch?v=_XiOcsj3oNI&t=50s"
+                        target="_blank"
+                        class="slider-nav-item"
+                        ><i class="fab fa-linkedin"></i
+                      ></a>
+                      <a target="_blank" class="slider-nav-item"
+                        ><i class="fab fa-pinterest"></i
+                      ></a>
+                      <a
+                        href="https://www.youtube.com/watch?v=_XiOcsj3oNI&t=50s"
+                        target="_blank"
+                        class="slider-nav-item"
+                        ><i class="fab fa-skype"></i
+                      ></a>
+                      <a href="#" class="slider-nav-item"
+                        ><i class="fab fa-youtube"></i
+                      ></a>
+                      <a href="#" class="behance slider-nav-item"
+                        ><i class="fab fa-behance"></i
+                      ></a>
+                      <a
+                        href="https://www.youtube.com/watch?v=_XiOcsj3oNI&t=50s"
+                        target="_blank"
+                        class="slider-nav-item"
+                        ><i class="fab fa-dribbble"></i
+                      ></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer Code  -->
+
+      <footer class="footer-sec">
+        <div class="main">
+          <div class="logo row">
+            <div class="footer-header">
+              <img src="/static_files/img/logo2.png" class="manik" alt="" />
+            </div>
+            <div class="logo-des">
+              <p>
+                This Website provides the tool to download any videos or convert
+                video to mp3 , you can download the YOUTUBE , INSTAGRAM REELS ,
+                FACEBOOK , TWITTER videos directly to your local system, just
+                copy and paste
+              </p>
+
+              <a href="#" class="btn-know">Know More</a>
+            </div>
+          </div>
+
+          <div class="office row">
+            <div class="footer-header">
+              <h3 class="footer-header-title">Developer</h3>
+            </div>
+            <div class="office-des">
+              <p>
+                Hello users,<br />
+                its Sanket Rathod , Developer of this site,<br />you can contact
+                me from any queries
+              </p>
+
+              <a href="#">sanketrathod7420@gmail.com</a>
+
+              <p class="num">+91-9999999999</p>
+            </div>
+          </div>
+
+          <div class="link row">
+            <div class="footer-header">
+              <h3 class="footer-header-title">Other Download Options</h3>
+            </div>
+
+            <div class="link-des">
+              <a href="" class="footer-links">Home</a>
+              <a href="instagram" class="footer-links">Instagram</a>
+              <a href="#" class="footer-links">Facebook</a>
+              <a href="#" class="footer-links">Twitter</a>
+              <a href="#" class="footer-links">Tik Tok</a>
+            </div>
+          </div>
+
+          <div class="newsletter row">
+            <div class="footer-header">
+              <h3 class="footer-header-title">Newsletter</h3>
+            </div>
+            <div class="newsletter-des">
+              <div class="subcribe">
+                <i class="sub-icon ri-mail-check-fill"></i>
+                <input type="mail" placeholder="Enter Email ID" required />
+                <i class="sub-icon ri-arrow-right-line"></i>
+              </div>
+              <div class="icons">
+                <a href="https://www.instagram.com/mr.sanket.r/" target="_blank"
+                  ><i class="fab fa-instagram"></i
+                ></a>
+                <a
+                  href="https://www.linkedin.com/in/sanketrathod757/"
+                  target="_blank"
+                  ><i class="fab fa-linkedin"></i
+                ></a>
+                <a
+                  href="https://www.youtube.com/@sanketrathodyt"
+                  target="”_blank”"
+                  ><i class="fab fa-youtube"></i
+                ></a>
+                <a
+                  href="https://www.whatsapp.com/channel/0029VaJg4DBAe5Vhgm3LwI2w"
+                  target="_blank"
+                  ><i class="fab fa-whatsapp"></i
+                ></a>
+                <a href="https://github.com/sanketrathod07" target="_blank"
+                  ><i class="fab fa-github"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="copyright">
+          <hr />
+
+          <p>© Copyright 2023 Maity.</p>
+        </div>
+      </footer>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
+    <script src="{% static 'js/popper.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

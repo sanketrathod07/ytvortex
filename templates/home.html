@@ -1,0 +1,424 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+<nav class="nav">
+    <div><a href="/">
+        <img class="logo" src="/static_files/img/logo2.png" alt=""></a>
+    </div>
+    <div>
+      <ul id="nav">
+        <li><a href="instagram"><i class="navIcons fab fa-instagram"></i>Instagram</a></li>
+        <li><a href="{% url 'webpage1' %}"><i class="navIcons fab fa-youtube"></i>Youtube</a></li>
+        <li><a href="#"><i class="navIcons fab fa-twitter"></i>Twitter</a></li>
+        <li><a href="more-services"><i class="fa-solid fa-angles-right"></i>More Services</a></li>
+      </ul>
+    </div>
+    <div class="menu" id="menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+<div class="main_container">
+    
+    <div class="background">
+        <div class="title">
+            <p>Free Youtube Downloader</p>
+        </div>
+
+        <div class="content">
+            <form action="" method="post" id="download-form">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="submit" value="Download" class="btn btn-info btn-block" id="download-btn">
+            </form>
+        </div>
+        
+    </div>
+    <div id="loading-container" class="loading-container spinner center">
+      <div class="spinner-blade"></div>
+      <div class="spinner-blade"></div>
+      <div class="spinner-blade"></div>
+      <div class="spinner-blade"></div>
+      <div class="spinner-blade"></div>
+      <div class="spinner-blade"></div>
+      <div class="spinner-blade"></div>
+      <div class="spinner-blade"></div>
+      <div class="spinner-blade"></div>
+      <div class="spinner-blade"></div>
+      <div class="spinner-blade"></div>
+      <div class="spinner-blade"></div>
+  </div>
+    
+    {% if title %}
+    
+        <div id="content-container"  class="videoToDownload content-container">
+            <div class="dbox">
+            <div class="img-thumb">
+                <img class="img-responsive" src="{{ thumb }}">
+            </div>
+            <div id="desl" class="v-about">
+                <p class="v-title">{{ title }}</p>
+                <section class="infos">
+
+                    <li>Duration <b>{{ duration }}</b></li>
+                    <li>Views <b>{{ views }}</b></li>
+                    <li>Likes <b>{{ likes }}</b></li>
+                    <li>Dislikes <b>{{ dislikes }}</b</li>
+
+                </section>
+            </div>
+        </div>
+
+        <div id="m-show">
+            <p class="v-title">{{ title }}</p>
+        </div>
+        <div class="downloads">
+
+            <table>
+                <tr>
+                    <th scope="col">Resolution</th>
+                    <th scope="col">File Size</th>
+                    <th scope="col">Extension</th>
+                    <th scope="col">Download</th>
+                </tr>
+                <tr>
+                    {% for stream in streams %}
+                        <tr>
+                            <td>{{ stream.resolution }}</td>
+                            <td>{{ stream.file_size }}</td>
+                            <td>{{ stream.extension }}</td>
+                            <td><a href="{{ stream.video_url }}" style="text-decoration: none;"
+                                   download="{{ title }}.{{ extension }}" target="_blank">Download <i
+                                    class=" fa fa-download"></i></a></td>
+                        </tr>
+                    {% endfor %}
+                </tr>
+            </table>
+
+            <p class="h3 text-center mt-5 mb-5">Audio Only</p>
+            <table class="table mt-5 mb-5">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">File Size</th>
+                    <th scope="col">Extension</th>
+                    <th scope="col">Download</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for stream in stream_audio %}
+                    <tr>
+                        <td>{{ stream.file_size }}</td>
+                        <td>{{ stream.extension }}</td>
+                        <td><a href="{{ stream.video_url }}" style="text-decoration: none;"
+                               download="{{ title }}.{{ extension }}" target="_blank">Download <i
+                                class=" fa fa-download"></i></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {##}
+            {#            <p class="h3 text-center mt-5 mb-5">Video Only</p>#}
+            {#            <table class="table mt-5">#}
+            {#                <thead class="thead-light">#}
+            {#                <tr>#}
+            {#                    <th scope="col">Resolution</th>#}
+            {#                    <th scope="col">File Size</th>#}
+            {#                    <th scope="col">Extension</th>#}
+            {#                    <th scope="col" >Download</th>#}
+            {#                </tr>#}
+            {#                </thead>#}
+            {#                <tbody>#}
+            {#                {% for stream in stream_video %}#}
+            {#                    <tr>#}
+            {#                        <td>{{ stream.resolution }}</td>#}
+            {#                        <td>{{ stream.file_size }}</td>#}
+            {#                        <td>{{ stream.extension }}</td>#}
+            {#                        <td><a href="{{ stream.video_url }}" style="text-decoration: none;"#}
+            {#                               download="{{ title }}.{{ extension }}" target="_blank">Download <i#}
+            {#                                class=" fa fa-download"></i></a></td>#}
+            {#                    </tr>#}
+            {#                {% endfor %}#}
+            {#                </tbody>#}
+            {#            </table>#}
+            {##}
+        </div>
+        </div>
+    {% endif %}
+
+    <!-- ======================================== 
+          Our work counter Section Start  
+    ========================================  -->
+
+    <!-- <section class="section section-work-data">
+        <div class="container grid grid-four-column">
+          <div>
+            <h2 class="counter-numbers" data-number="2000">3000+</h2>
+            <p>project completed</p>
+          </div>
+          <div>
+            <h2 class="counter-numbers" data-number="6000">2537+</h2>
+            <p>Happy Clients</p>
+          </div>
+          <div>
+            <h2 class="counter-numbers" data-number="5000">1753+</h2>
+            <p>cups of coffee</p>
+          </div>
+          <div>
+            <h2 class="counter-numbers" data-number="3000">1386+</h2>
+            <p>real professionals</p>
+          </div>
+        </div>
+      </section>
+
+    </div> -->
+
+
+<!-- Steps To Download -->
+<section class="oggq7a-7 kACDjV">
+    <div itemscope="" itemtype="https://schema.org/HowTo" class="sc-1ibx895-0 bYWQJC">
+      <div itemprop="name" color="black" class="yk6pkc-0 dhvFex oggq7a-4 hqXzRu">
+        <h3>How to convert YouTube videos to MP4 in Wave.video:<br> Step-by-step guide</h3>
+      </div>
+      <ul class="sc-1sbn9nh-0 ejWKKN">
+        <li itemprop="step" itemscope="" itemtype="https://schema.org/HowToStep" class="oggq7a-6 dgcRev">
+          <div class="oggq7a-5 cogzrn">
+            <div class="oggq7a-3 guwape">
+              <div class="mig0x4-0 kaTQda animated active">
+                <div style="display:block;overflow:hidden;position:relative;box-sizing:border-box;margin:0">
+                  <div class="stepsImgDiv" style="display:block;box-sizing:border-box;padding-top: 5%;"></div>
+                  <img class="steps1Img" itemprop="image" alt="Step 1. Copy the URL" src="/static_files/img/step1.jpg">
+                </div>
+              </div>
+            </div>
+            <div class="oggq7a-1 jhGbCI">
+              <div class="mig0x4-0 kDuhCX animated active">
+                <div itemprop="name" color="black" class="yk6pkc-0 dhvFex oggq7a-0 edIUli">
+                  <h4>Step 1. Copy the URL</h4>
+                </div>
+                <div itemprop="text" color="black" class="yk6pkc-0 dhvFex oggq7a-0 edIUli">
+                  <p class="yk6pkc-1 TgzXT">First, open the video that you want to download on YouTube and copy its URL.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li itemprop="step" itemscope="" itemtype="https://schema.org/HowToStep" class="oggq7a-6 dgcRev">
+          <div class="oggq7a-5 cogzrn">
+            <div class="oggq7a-3 guwape">
+              <div class="mig0x4-0 kDuhCX animated">
+                <div style="display:block;overflow:hidden;position:relative;box-sizing:border-box;margin:0">
+                  <div style="display:block;box-sizing:border-box;padding-top: 5%;"></div>
+                  <img class="steps2Img" itemprop="image" alt="Step 2. Paste the URL" src="/static_files/img/step2.jpg">
+                </div>
+              </div>
+            </div>
+            <div class="oggq7a-1 jhGbCI">
+              <div class="mig0x4-0 kaTQda animated">
+                <div itemprop="name" color="black" class="yk6pkc-0 dhvFex oggq7a-0 edIUli">
+                  <h4>Step 2. Paste the URL</h4>
+                </div>
+                <div itemprop="text" color="black" class="yk6pkc-0 dhvFex oggq7a-0 edIUli">
+                  <p class="yk6pkc-1 TgzXT">Paste the YouTube URL into the box on the top of this page and click the “Download MP4” button. If you want to save the video to your Wave.video account and customize, host, or stream it, click on the “Save and edit video” button.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li itemprop="step" itemscope="" itemtype="https://schema.org/HowToStep" class="oggq7a-6 dgcRev">
+          <div class="oggq7a-5 cogzrn">
+            <div class="oggq7a-3 guwape">
+              <div class="mig0x4-0 kaTQda animated">
+                <div style="display:block;overflow:hidden;position:relative;box-sizing:border-box;margin:0">
+                  <div class="stepsImgDiv" style="display:block;box-sizing:border-box;padding-top: 5%;"></div>
+                  <img class="steps3Img" itemprop="image" alt="Step 3. Download the video" src="https://assets.animatron.com/static/images/data/convert/youtube-to-mp4/step3.webp?auto=format&amp;fit=max&amp;w=3840" decoding="async" style="min-height: 20vh;max-height: 54vh;">
+                </div>
+              </div>
+            </div>
+            <div class="oggq7a-1 jhGbCI">
+              <div class="mig0x4-0 kDuhCX animated">
+                <div itemprop="name" color="black" class="yk6pkc-0 dhvFex oggq7a-0 edIUli">
+                  <h4>Step 3. Download the video</h4>
+                </div>
+                <div itemprop="text" color="black" class="yk6pkc-0 dhvFex oggq7a-0 edIUli">
+                  <p class="yk6pkc-1 TgzXT">Now, the video will be automatically converted to MP4 format and saved to your device for you to use. Enjoy!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <!-- Repeat similar blocks for other steps -->
+      </ul>
+      <div class="jqggro-0 cSrHjg">
+        <div class="oggq7a-2 cqwOyg"> </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="trial-block shadow3" id="ContactUs">
+    <div class="height450">
+       <div class="section-title text-center">
+          <span class="badge badge-info">Download From All Social</span>
+          <h2 class="SocialIconTitle">Social Link</h2>
+          <span class="section-title-line section-title-line"></span>
+       </div>
+        <div class="social-overlap process-scetion mt100">
+         <div class="container">
+             <div class="row justify-content-center">
+                 <div class="col-md-10">
+                     <div class="social-bar">
+                         <div class="social-icons mb-3 iconpad text-center">
+                            
+                             
+                             <a  class="slider-nav-item"><i class="fab fa-facebook"></i></a>
+                             <a  class="slider-nav-item"><i class="fab fa-google-plus"></i></a>
+                             <a  class="slider-nav-item"><i class="fab fa-twitter"></i></a>
+                             <a href="https://www.youtube.com/watch?v=_XiOcsj3oNI&t=50s" target="_blank" class="slider-nav-item"><i class="fab fa-instagram"></i></a>
+                             <a href="https://www.youtube.com/watch?v=_XiOcsj3oNI&t=50s" target="_blank" class="slider-nav-item"><i class="fab fa-linkedin"></i></a>
+                             <a  target="_blank" class="slider-nav-item"><i class="fab fa-pinterest"></i></a>
+                             <a href="https://www.youtube.com/watch?v=_XiOcsj3oNI&t=50s" target="_blank" class="slider-nav-item"><i class="fab fa-skype"></i></a>                                
+                             <a href="#" class="slider-nav-item"><i class="fab fa-youtube"></i></a>
+                             <a href="#" class="behance slider-nav-item"><i class="fab fa-behance"></i></a>
+                             <a href="https://www.youtube.com/watch?v=_XiOcsj3oNI&t=50s" target="_blank" class="slider-nav-item"><i class="fab fa-dribbble"></i></a>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+    </div> 
+</section>
+
+
+  <!-- InFormation ABout Website Components -->
+<!--   
+
+
+    <section class="sc-6ddkef-1 gkyap">
+        <div size="1150" class="sc-1ibx895-0 bYWSHN">
+            <div color="black" class="yk6pkc-0 dhvFex sc-6ddkef-0 QhOBZ">
+                <h2 class="infoAboutPage">Free and convenient tool to<br> download YouTube videos</h2>
+            </div>
+            <div class="sc-1ge1kp5-4 fQUqAX">
+                <div class="sc-1ge1kp5-1 drsOKG">
+                    <div class="sc-1ge1kp5-2 iquvRY">
+                        <img src="https://assets.animatron.com/static/images/icons/lps/emoji-laptop_v1.png" draggable="true" alt="Web-based downloader">
+                    </div>
+                    <div color="black" class="yk6pkc-0 dhvFex sc-1ge1kp5-0 cLHaxt">
+                        <h4>Web-based downloader</h4>
+                        <p class="yk6pkc-1 TgzXT">Our YouTube to MP4 downloader is completely web-based, which means you can easily convert videos through any browser anywhere in the world. No need to install heavy software to your computer anymore!</p>
+                    </div>
+                </div>
+                <div class="sc-1ge1kp5-1 kNyeKY">
+                    <div class="sc-1ge1kp5-2 iquvRY">
+                        <img src="https://assets.animatron.com/static/images/icons/lps/emoji-magic_v1.png" draggable="true" alt="Ease of use">
+                    </div>
+                    <div color="black" class="yk6pkc-0 dhvFex sc-1ge1kp5-0 cLHaxt">
+                        <h4>Ease of use</h4>
+                        <p class="yk6pkc-1 TgzXT">Wave.video’s free YouTube to MP4 converter is a time saver for downloading and converting videos. It’s easy to use even for people with no video editing skills thanks to the user-friendly interface and straightforward setup.</p>
+                    </div>
+                </div>
+                <div class="sc-1ge1kp5-1 efqjdn">
+                    <div class="sc-1ge1kp5-2 iquvRY">
+                        <img src="https://assets.animatron.com/static/images/icons/lps/emoji-infinity_v1.png" draggable="true" alt="Unlimited conversions">
+                    </div>
+                    <div color="black" class="yk6pkc-0 dhvFex sc-1ge1kp5-0 cLHaxt">
+                        <h4>Unlimited conversions</h4>
+                        <p class="yk6pkc-1 TgzXT">With our YouTube to MP4 downloader, you can download as many YouTube videos as you want! There are no limitations on the number of conversions to MP4 format.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+ -->
+
+
+
+    
+<!-- Footer Code  -->
+ 
+<footer class="footer-sec">
+  <div class="main">
+    
+    
+    <div class="logo row">
+      <div class="footer-header">
+        <img src="/static_files/img/logo2.png" class="manik" alt="">
+      </div>
+      <div class="logo-des">
+        <p>This Website provides the tool to download any videos or convert video to mp3 , you can download the YOUTUBE , INSTAGRAM REELS , FACEBOOK , TWITTER videos directly to your local system, just copy and paste</p>
+        
+        <a href="#" class="btn-know">Know More</a>
+      </div>
+      
+      
+    </div>
+    
+    
+    
+    <div class="office row">
+      <div class="footer-header">
+        <h3 class="footer-header-title">Developer</h3>
+      </div>
+      <div class="office-des">
+        <p>Hello users,<br> its Sanket Rathod , Developer of this site,<br>you can contact me from any queries</p>
+        
+       <a href="#">sanketrathod7420@gmail.com</a>
+        
+        <p class = "num">+91-9999999999</p>
+      </div>
+    </div>
+    
+    
+    <div class="link row">
+      <div class="footer-header">
+        <h3 class="footer-header-title">Other Download Options</h3>
+      </div>
+      
+      <div class="link-des">
+        <a href="" class="footer-links">Home</a>
+        <a href="instagram" class="footer-links">Instagram</a>
+        <a href="#" class="footer-links">Facebook</a>
+        <a href="#" class="footer-links">Twitter</a>
+        <a href="#" class="footer-links">Tik Tok</a>
+      </div>
+      
+    </div>
+    
+    
+    <div class="newsletter row">
+      <div class="footer-header">
+        <h3 class="footer-header-title">Newsletter</h3>
+      </div>
+      <div class="newsletter-des">
+        <div class="subcribe"><i class="sub-icon ri-mail-check-fill"></i>
+          <input type="mail" placeholder = "Enter Email ID" required>
+          <i class="sub-icon ri-arrow-right-line"></i>
+        </div>
+        <div class="icons">
+          <a href="https://www.instagram.com/mr.sanket.r/" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.linkedin.com/in/sanketrathod757/" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="https://www.youtube.com/@sanketrathodyt" target=”_blank”><i class="fab fa-youtube"></i></a>
+          <a href="https://www.whatsapp.com/channel/0029VaJg4DBAe5Vhgm3LwI2w" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://github.com/sanketrathod07" target="_blank"><i class="fab fa-github"></i></a>
+          
+        </div>
+      </div>
+    </div>
+    
+    
+  </div>
+  <div class="copyright">
+  <hr>
+  
+  <p>© Copyright 2023  Maity.</p>
+  </div>
+</footer>
+
+{% endblock %}
